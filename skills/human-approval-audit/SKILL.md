@@ -41,9 +41,14 @@ endpoints.
    the built artifact as a child process, say so in the report, and propose
    where the team should adopt them. A finding without a run probe is marked
    **asserted**, not confirmed.
-4. **Write the report** to the contract in `references/report-template.md`
-   and deliver it to whoever asked (inline reply, PR comment or file, as they
-   prefer). The verdict line comes first. Remediation is ordered
+4. **Write the report** to the contract in `references/report-template.md`.
+   The reply to the asker *is* the report, in the contract's order, whether
+   or not it is also saved to a file or a PR comment: it opens with the
+   verdict line(s) in the exact words "proves the action", "proves a click"
+   or "proves nothing", then the record table, the scorecard, the probes
+   with their output, the attacker list, the remediation ladder, and the
+   auditor statement. A casual question gets the same seven parts; brevity
+   comes from short rows, not from dropping parts. Remediation is ordered
    framework-native fixes first.
 
 ## The six properties
