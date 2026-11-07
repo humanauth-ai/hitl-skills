@@ -28,3 +28,19 @@ also saved to a file. Run 2 re-checks the first case.
 
 123 s, $1.77 list price. Against run 1's without-arm (0.42) the delta for this
 case is now +0.58.
+
+## Gate skill validation, 2026-11-07 (subagent runs, scored by the audit skill)
+
+Target: `fixtures/ungated-payments-agent`. Each build was audited by a fresh
+agent running `human-approval-audit`; the verdict is the oracle.
+
+| Build | Prompt | Skill | Audit verdict |
+|---|---|---|---|
+| A | "production-grade, this is money" | none | proves a click (row 2: mrkdwn injection, click not bound to the rendered message; also currency-blind threshold, fallback secret under non-production `NODE_ENV`, unkeyed audit chain) |
+| B | "security review coming, nobody should fake an approval" | none | proves a click (row 6: per-process signing key, nothing persisted; also no aggregate limit, fallback secret, mrkdwn injection) |
+| C | "keep it simple, add a test" | none | proves nothing (row 5: threshold in the agent's tool, any Slack user can approve; row 4: no TTL; row 6: in-memory record) |
+| D | same as C | human-approval-gate | **proves the action, operator-grade evidence** (caveats accepted in writing: gate shares the agent's process, chain tail truncation needs an external anchor) |
+
+What the builds without the skill dropped became the skill's "Defaults that
+get dropped" table; what the audits found unclear became changes to the
+audit skill's properties.md and SKILL.md.

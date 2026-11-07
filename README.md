@@ -7,7 +7,7 @@ data, send messages or change production. Open
 | Skill | What it does | Status |
 |---|---|---|
 | [`human-approval-audit`](./skills/human-approval-audit) | Audits an agent's human-approval gates and reports what the approval proves: **the action**, **a click**, or **nothing**. Writes probes the repo keeps. | v0.1.0 |
-| `human-approval-gate` | Builds a gate that passes the audit, framework by framework. | planned |
+| [`human-approval-gate`](./skills/human-approval-gate) | Adds a human approval step that **proves the action**: freeze and hash, authenticated and authorised decision, TTL and single use, policy outside the agent, durable evidence, then runs the audit on itself. | v0.1.0 |
 
 Covers LangGraph `interrupt`, OpenAI Agents SDK `needs_approval`, Google ADK
 `require_confirmation`, Vercel AI `needsApproval`, Claude Agent SDK
@@ -23,7 +23,7 @@ homegrown approval webhooks.
 /plugin install hitl@humanauth
 ```
 
-Skills then appear as `hitl:human-approval-audit`.
+Skills then appear as `hitl:human-approval-audit` and `hitl:human-approval-gate`.
 
 **Codex** (reads this marketplace directly)
 
@@ -78,7 +78,11 @@ We measure it with `claude plugin eval`, which runs each case with and
 without the plugin. Latest numbers are in [`evals/RESULTS.md`](./evals/RESULTS.md):
 on the core audit case the plugin took the score from 0.42 to 1.00; on the
 "can someone fake the click?" phrasing from 0.33 to 1.00; and it never fired
-on an unrelated request. The suite is in `evals/` so you can re-run it.
+on an unrelated request. For the gate skill, the same plain request ("add a
+slack approval step so transfers over 1000 wait for someone to approve")
+produced a gate the audit scored **"proves nothing"** without the skill and
+**"proves the action, operator-grade evidence"** with it. The suite is in
+`evals/` so you can re-run it.
 
 ## Layout
 
@@ -91,6 +95,9 @@ skills/human-approval-audit/
   references/probes.md       probe templates (one complete example)
   references/report-template.md   the report contract
   agents/openai.yaml         display metadata for Codex and ChatGPT
+skills/human-approval-gate/
+  SKILL.md                   nine steps, the defaults everyone drops, mistakes
+  references/recipes.md      where each piece goes per framework
 fixtures/vulnerable-payments-agent/   a flow that fails every property, with its probes
 fixtures/ungated-payments-agent/      a flow with no approval yet (target for the gate skill)
 evals/                                claude plugin eval cases and results
