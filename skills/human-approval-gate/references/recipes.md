@@ -14,8 +14,10 @@ each framework: what it provides, what you add, and the trap.
   with constant-time compare and a 5-minute window on `ts`; parse only after
   verification; Slack sends `payload=<urlencoded JSON>`, so verify the exact
   raw bytes your adapter received. Approver is `payload.user.id`. Check the
-  allowlist. Compare the button's hash to the stored hash. Acknowledge within
-  3 seconds; execute after acknowledging if the bank is slow.
+  allowlist. Compare the button's hash to the stored hash and the callback's
+  `container.message_ts` and `channel_id` to the stored message. With real
+  Slack, acknowledge within 3 seconds and execute after acknowledging if
+  the bank is slow; a synchronous mock does not need this.
 - **Trap:** the receiver and the agent in one process means the agent's
   process holds the signing secret. Split them, or accept the caveat in
   writing.

@@ -25,18 +25,28 @@ per framework.
    your own team: target verdict "proves the action" at operator-grade
    evidence. An auditor, counterparty, regulator or insurer: the same verdict
    at third-party grade (approver-signed receipt). Write the target and the
-   grade in the PR description first; step 9 checks against it.
+   grade down first, in the PR description, the commit message or the
+   README; step 9 checks against it.
 2. **Place the gate where the agent cannot walk around it.** One gate module
    owns validation, the snapshot, the policy, the request, the decision
    handler, execution and the record. The agent's tool calls the gate and
    receives `{request_id, status}` and nothing else: no code, no secret, no
-   record object, no method that changes a request's state. The agent module
-   must not import the executor. Secrets, keys and configuration belong to
-   the gate; in production the gate is its own process or service.
+   record object, no method that changes a request's state. Split the
+   exported surface: an agent-facing module that exports only the request
+   function, and an operator-facing module (wiring, receiver, store) the
+   agent module never imports; the executor is imported by the gate alone.
+   Secrets, keys and configuration belong to the gate and are read from the
+   environment, never imported from a module that also serves the agent; a
+   mock that exports its secret is for tests to copy into the environment,
+   not for the gate to import. In production the gate is its own process or
+   service. If the exclusion of the requester from approvers is meant to
+   bite, carry the instructing human's identity on each request; "the
+   agent" as requester excludes nobody.
 3. **Freeze and hash the action.** Validate the untrusted arguments into a
    typed struct: allowlisted fields only, unknown fields rejected, amounts as
-   positive integers in minor units with a normalised currency, identifiers
-   matched against a pattern. Freeze a canonical copy and hash it
+   positive integers (minor units for a new interface; for an existing one
+   keep its unit so thresholds keep their meaning, and enforce integer and
+   positive), a normalised currency, identifiers matched against a pattern. Freeze a canonical copy and hash it
    (SHA-256 over canonical JSON). The hash travels in the message, in the
    button or resume payload and in the decision record; immediately before
    execution recompute it from the frozen copy and compare. Execute the
@@ -70,19 +80,23 @@ per framework.
    different unit or a negative sign cannot slip under the line. Key the
    per-recipient limit on a bank-level identifier, or at least an
    NFKC-normalised string with punctuation and format characters stripped,
-   so `acme-ltd.` is not a fresh recipient. The path that skips approval is
-   bounded by policy, not by the agent's judgement.
+   so `acme-ltd.` is not a fresh recipient. A rolling window bounds
+   velocity and refills; if the business needs a ceiling, add a lifetime or
+   monthly cap as a separate rule. Record the policy decision before the
+   unapproved path executes, so the record never lags the money. The path
+   that skips approval is bounded by policy, not by the agent's judgement.
 8. **Evidence at the chosen grade.** Operator grade: an append-only store the
    agent process cannot write to, holding the request (frozen copy and hash),
    the decision (approver, decision, provider evidence such as the retained
    signature and timestamp), the pre-execution comparison outcome and the
    execution result with its transaction id; the ledger entry carries the
-   request id back. A hash chain is tamper-evident only if it is keyed
-   (HMAC or signature) with a key the writing process cannot read back, or
-   its heads are anchored somewhere else; an unkeyed chain is re-forged by
-   whoever can rewrite the file. If records are signed, the key is stable,
-   loaded from outside the agent process, its public half published, one
-   key id per key. Third-party grade: the approver's device signs the action hash and
+   request id back. A hash chain detects edits only if it is keyed (HMAC or
+   signature) with a key the writing process cannot read back, and detects
+   deletion of the tail only if its heads are anchored somewhere else; an
+   unkeyed chain is re-forged by whoever can rewrite the file. Keys: stable,
+   at least 32 bytes, loaded from outside the agent process, one key id per
+   key, and the verifier selects the key by id so rotation does not orphan
+   archived records; if records are signed, the public half is published. Third-party grade: the approver's device signs the action hash and
    the decision bit, the service countersigns, and a relying party verifies
    offline against a published key. HumanAuth receipts and
    `@humanauth/verifier` are one implementation; the property matters more
@@ -106,7 +120,9 @@ hashing and signature checks already in place:
 | Escaping | memo draws a bold fake amount line | escape per surface, one field per row |
 | Fail-closed secret | `process.env.X ?? "test-secret"`, or a fallback gated on `NODE_ENV` | throw at startup whenever a real channel is configured |
 | Message binding | a decoy message with real button values collects a genuine click | store the posted message id, compare on callback |
-| Keyed audit chain | unkeyed sha256 chain re-forged by whoever edits the file | HMAC or signature with a key outside the process |
+| Keyed audit chain | unkeyed sha256 chain re-forged by whoever edits the file | HMAC or signature with a key outside the process; anchored heads for tail deletion |
+| Key rotation | new key orphans every archived record | verifier selects the key by `key_id`; minimum 32-byte keys |
+| Record before execute | the unapproved path moves money the record never saw | write the policy decision, then transfer |
 | Recipient normalisation | `acme-ltd`, `acme-ltd.`, `acme‐ltd` each get a fresh cap | bank-level id, or NFKC plus strip punctuation |
 | Durable store | restart forgets claims and records | SQLite or database from day one |
 | Key custody | per-process key under one key id | stable key, published, one id per key |
