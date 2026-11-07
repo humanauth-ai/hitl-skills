@@ -173,6 +173,17 @@ accept a JWKS URL you can point at a local key.
    to re-verify an archived receipt after its expiry. If the verifier has no
    audit mode, the evidence has a shelf life of minutes.
 
+## Probes for in-memory or in-process gates
+
+When the decision record is an object in a Map rather than a file, the
+evidence probes change shape: mutate the live record after approval and show
+nothing detects it (`decidedBy`, `amount`); simulate a restart by resetting
+the module state and show the ledger still holds the money with no approver,
+hash or decision attached; take the signing key or secret the gate holds and
+mint a decision from inside the process. For the not-a-gate path, probe the
+threshold with a different currency, a negative amount, and N calls just
+under the limit.
+
 ## Property 2 (rendering) is usually a reading probe
 
 Diff the fields the executor consumes against the fields in the human-facing

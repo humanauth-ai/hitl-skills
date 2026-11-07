@@ -27,7 +27,9 @@ endpoints.
    where the action is **requested** (rendered to a human), where the
    **decision** arrives, where the action **executes**, and what is
    **recorded**. Include paths that skip approval (under-threshold,
-   auto-approve); they usually share the same mutable store. Point the
+   auto-approve); they usually share the same mutable store. Check whether
+   the agent's module imports the executor directly: a gate the agent can
+   walk around is the structural root of most "not a gate" lines. Point the
    script at the directory that holds the flow: default mode skips `test`,
    `docs`, `examples` and `fixtures` subfolders.
 2. **Score six properties per gate** using the table below and

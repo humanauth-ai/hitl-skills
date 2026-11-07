@@ -137,6 +137,13 @@ probe that instead.
 Remember that Slack and most webhook providers retry on slow responses, so a
 replay is a normal event, not only an attack.
 
+Two separate freshness controls, often conflated: the *provider's* replay
+window (Slack's 5-minute timestamp check on the callback) and the
+*request's* TTL (how old a pending approval may be when the click arrives).
+A gate can have the first and not the second, in which case a button left
+in channel history can be clicked a month later. Row 4 needs both; the
+record needs a `created_at` for the second to be checkable at all.
+
 ## 5. Approver anchoring: the agent cannot approve itself
 
 **Look for:** every place an approval secret or decision can travel. Return
@@ -151,7 +158,21 @@ or a policy service, not by the agent's module.
 
 **Fail:** the request function returns the OTP; an inbox tool can read the
 approval email; the agent's own module holds the threshold constant; the
-model's own prose is accepted as the confirmation.
+model's own prose is accepted as the confirmation; **no approver policy**:
+any authenticated identity is accepted (any member of the Slack channel, any
+address that can reply), so "verified" does not mean "authorised". An
+allowlist or role check, excluding the requester and every identity the
+agent itself holds, is the control.
+
+Property 5 bundles three questions: can the agent obtain or forge the
+decision; is the approver a verified identity *and* an authorised one; who
+decides when to ask. Score the row on the worst of the three and name each
+answer in the Where and Probe cells, so the reader can see which one failed.
+
+**Threshold evasion** is more than splitting. Probe a different currency or
+unit against a numeric threshold, a negative or non-finite amount, and a
+string that parses as a number. These cost one test each and are often the
+largest finding on a gate whose approvals are otherwise sound.
 
 **Threshold splitting** (N small actions replace one large one, no human
 asked) is scored on the "not a gate" line for the under-threshold path, and

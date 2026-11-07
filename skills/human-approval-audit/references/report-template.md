@@ -11,8 +11,11 @@ One line per decision handler, first thing in the document:
 <gate name> (<file:line of the decision handler>): proves <the action | a click | nothing>.
 ```
 
-Apply the rule from SKILL.md. Do not soften it. If two handlers differ, list
-both. If a path executes with no approval at all (under-threshold,
+Apply the rule from SKILL.md. Do not soften it. The line may be followed by
+one sentence naming the rows that pass, so a gate with real binding and a
+policy gap is not read as having no controls ("Rows 1 to 3 pass; the verdict
+is set by row 5: any channel member can approve and the agent sets the
+threshold"). If two handlers differ, list both. If a path executes with no approval at all (under-threshold,
 auto-approve), add a line for it stating that it is not a gate and what the
 probes showed it can be turned into.
 
