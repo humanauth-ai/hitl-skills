@@ -1,9 +1,9 @@
 ---
-name: approval-integrity
+name: human-approval-audit
 description: Use when a codebase pauses an AI agent for a human decision (LangGraph interrupt, OpenAI needs_approval, Google ADK require_confirmation, Vercel AI needsApproval, Claude Agent SDK canUseTool, MCP elicitation, n8n Wait, Slack or email approve buttons, custom approval webhooks) and someone asks whether that approval is secure, what it actually proves, how it would hold up with an auditor, or before an agent that moves money, deletes data, sends messages or changes production goes in front of compliance or security review.
 ---
 
-# Approval Integrity
+# Human approval audit (approval integrity)
 
 ## Overview
 

@@ -1,7 +1,7 @@
 # Vulnerable payments agent (fixture)
 
 A deliberately flawed human-approval flow for an AI agent that moves money.
-It exists so the `approval-integrity` skill has something to audit, and so you
+It exists so the `human-approval-audit` skill has something to audit, and so you
 can see what a failing report looks like before running it on your own code.
 
 Do not copy any of this into production.

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "hitl",
+  "displayName": "HITL: Human-in-the-Loop Skills",
+  "version": "0.1.0",
+  "description": "Human-in-the-loop (HITL) skills for AI agents that need human approval before consequential actions. human-approval-audit: audit an agent's approval gates (LangGraph interrupt, OpenAI needs_approval, ADK, Vercel AI, Claude Agent SDK, MCP elicitation, n8n, Slack/email buttons, custom webhooks) and report what the approval proves: the action, a click, or nothing.",
+  "author": {
+    "name": "HumanAuth",
+    "url": "https://humanauth.ai"
+  },
+  "homepage": "https://github.com/humanauth-ai/hitl-skills",
+  "repository": "https://github.com/humanauth-ai/hitl-skills",
+  "license": "MIT",
+  "keywords": [
+    "human-in-the-loop",
+    "hitl",
+    "human-approval",
+    "approval-gate",
+    "tool-approval",
+    "ai-agents",
+    "agent-security",
+    "loopjacking",
+    "langgraph",
+    "openai-agents-sdk",
+    "mcp"
+  ]
+}

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Deliberately flawed human-approval flow for an AI payments agent. Fixture for the approval-integrity skill.",
+  "description": "Deliberately flawed human-approval flow for an AI payments agent. Fixture for the human-approval-audit skill.",
   "scripts": {
     "test": "node --test --experimental-strip-types test/*.test.ts"
   },

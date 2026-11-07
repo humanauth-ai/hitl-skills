@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "humanauth",
+  "description": "Human-in-the-loop skills from HumanAuth: audit what a human approval proves, and build approval gates that prove the action.",
+  "owner": {
+    "name": "HumanAuth",
+    "url": "https://humanauth.ai"
+  },
+  "metadata": {
+    "version": "0.1.0",
+    "description": "Human-in-the-loop (HITL) skills for AI agents, from HumanAuth"
+  },
+  "plugins": [
+    {
+      "name": "hitl",
+      "source": "./",
+      "description": "Human-in-the-loop skills for AI agents: audit an agent's human-approval gates and report what the approval proves (the action, a click, or nothing).",
+      "version": "0.1.0",
+      "author": { "name": "HumanAuth", "url": "https://humanauth.ai" },
+      "homepage": "https://github.com/humanauth-ai/hitl-skills",
+      "repository": "https://github.com/humanauth-ai/hitl-skills",
+      "license": "MIT",
+      "category": "security",
+      "keywords": ["human-in-the-loop", "hitl", "human-approval", "approval-gate", "tool-approval", "ai-agents", "agent-security"]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+evals/results/
+fixtures/**/node_modules/
+fixtures/**/.state/

@@ -1,0 +1,4 @@
+interface:
+  display_name: Human Approval Audit
+  short_description: Audit an AI agent's human-in-the-loop approval gates and report what the approval proves.
+  default_prompt: Use human-approval-audit to audit the human-approval gates in this repository and tell me what each approval proves.

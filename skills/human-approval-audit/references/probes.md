@@ -14,8 +14,10 @@ the assertions).
 
 ## One complete example (TypeScript, node:test)
 
-Written against this skill's own fixture, `fixtures/vulnerable-payments-agent`
-(`requestTransfer`, `amendPendingAction`, `handleApprovalCallback`,
+Written against this plugin's own fixture, `fixtures/vulnerable-payments-agent`
+in the plugin root (two directories above this skill folder; also at
+github.com/humanauth-ai/hitl-skills). It exposes `requestTransfer`,
+`amendPendingAction`, `handleApprovalCallback`,
 `runApprovedActions`, a `ledger`). On any other repo the names, the state
 reset and the way you reach the inbox will differ; the shape of each probe
 is what transfers.
