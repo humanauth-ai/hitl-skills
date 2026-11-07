@@ -29,7 +29,9 @@ endpoints.
    **recorded**. Include paths that skip approval (under-threshold,
    auto-approve); they usually share the same mutable store. Check whether
    the agent's module imports the executor directly: a gate the agent can
-   walk around is the structural root of most "not a gate" lines. Point the
+   walk around is the structural root of most "not a gate" lines. Read the
+   wiring and config module too (where secrets, approver lists and the
+   store are chosen): fail-open defaults live there, not in the handler. Point the
    script at the directory that holds the flow: default mode skips `test`,
    `docs`, `examples` and `fixtures` subfolders.
 2. **Score six properties per gate** using the table below and
@@ -66,6 +68,13 @@ endpoints.
 
 **Verdict rule.** Proves nothing: 3 or 5 fails. Proves a click: 3 and 5
 pass, and any of 1, 2, 4 or 6 fails. Proves the action: all six pass.
+Property 6 passes at operator grade unless the asker named a party outside
+the operator (auditor, counterparty, regulator, insurer), in which case only
+third-party grade passes; the verdict sentence names the grade either way
+("proves the action, operator-grade evidence"). Score property 5 on what the
+model can reach through its tools and return values; code in the same
+process that can reach the gate's store, config or secrets is a caveat on
+the row, not a Fail (see `references/properties.md`).
 Unknown counts as Fail for the verdict; append the unknown property numbers
 in parentheses, for example "proves nothing (5 unknown)". If you cannot show
 it, the approval does not prove it. One verdict line per decision handler;

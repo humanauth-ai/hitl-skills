@@ -73,7 +73,18 @@ and email HTML, terminal ANSI. Unescaped interpolation lets the agent put a
 smaller amount in bold, a fake "pre-approved" line, or a mention in the
 message while the hash binds the real values. Confirm the interpolation in
 code; the visual effect is asserted unless you can render the surface. Score
-as a caveat on row 2 when every field is present but unescaped.
+as a caveat on row 2 when the injected text can only decorate; score Fail
+when it can impersonate a field the human relies on (a recipient shown as a
+link label, a fake amount line), because then what the human read is not
+what the gate can vouch for.
+
+**Message binding.** The decision should come from the message the gate
+rendered. For Slack, compare the callback's `container.message_ts` and
+`channel_id` to the ones stored at request time; for other surfaces, the
+equivalent message or card id. Without it, anyone holding the app's token
+can post a decoy message whose buttons carry a real `request_id|hash`, and a
+genuine, signed click on the decoy approves the real request. Score under
+row 2: the human approved what the decoy showed.
 
 Microsoft's AI red team guidance: summarize approvals from the underlying tool
 calls, not from the agent's own description.

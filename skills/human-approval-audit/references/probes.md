@@ -173,6 +173,16 @@ accept a JWKS URL you can point at a local key.
    to re-verify an archived receipt after its expiry. If the verifier has no
    audit mode, the evidence has a shelf life of minutes.
 
+## Probing a well-built gate
+
+A gate with no amend path and a CAS store still has a runtime surface:
+TypeScript `private` fields are public at runtime, so `gate.store.update(...)`
+from inside the process is a legitimate probe of what process-level code can
+do (report it as the row-5 process caveat, not as the model's reach). When a
+probe fails in the gate's favour for an unintended reason (a default
+approver id that can never match, a dead code path), that accidental control
+is itself a finding: write it down, because a config change removes it.
+
 ## Probes for in-memory or in-process gates
 
 When the decision record is an object in a Map rather than a file, the

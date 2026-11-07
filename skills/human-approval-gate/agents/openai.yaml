@@ -1,0 +1,4 @@
+interface:
+  display_name: Human Approval Gate
+  short_description: Add a human-in-the-loop approval step to an AI agent that proves the action, not just a click.
+  default_prompt: Use human-approval-gate to add a human approval step in front of this agent's consequential action and verify it with the audit.
