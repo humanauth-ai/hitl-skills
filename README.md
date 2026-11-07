@@ -72,6 +72,14 @@ properties per gate (binding, rendering, channel authenticity, freshness and
 single use, approver anchoring, evidence) and demonstrates each gap with a
 test in your own runner.
 
+## Does the skill actually help?
+
+We measure it with `claude plugin eval`, which runs each case with and
+without the plugin. Latest numbers are in [`evals/RESULTS.md`](./evals/RESULTS.md):
+on the core audit case the plugin took the score from 0.42 to 1.00; on the
+"can someone fake the click?" phrasing from 0.33 to 1.00; and it never fired
+on an unrelated request. The suite is in `evals/` so you can re-run it.
+
 ## Layout
 
 ```
@@ -84,6 +92,8 @@ skills/human-approval-audit/
   references/report-template.md   the report contract
   agents/openai.yaml         display metadata for Codex and ChatGPT
 fixtures/vulnerable-payments-agent/   a flow that fails every property, with its probes
+fixtures/ungated-payments-agent/      a flow with no approval yet (target for the gate skill)
+evals/                                claude plugin eval cases and results
 ```
 
 ## Scope and ethics
