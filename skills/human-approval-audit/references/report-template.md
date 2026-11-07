@@ -17,7 +17,9 @@ policy gap is not read as having no controls ("Rows 1 to 3 pass; the verdict
 is set by row 5: any channel member can approve and the agent sets the
 threshold"). If two handlers differ, list both. If a path executes with no approval at all (under-threshold,
 auto-approve), add a line for it stating that it is not a gate and what the
-probes showed it can be turned into.
+probes showed it can be turned into: a larger single action, or a series of
+small ones, with the per-window figure and the time horizon (a rolling cap
+bounds a day and nothing bounds a year; say both numbers).
 
 ## 2. What the approval record establishes
 
@@ -51,7 +53,8 @@ an Unknown row is always asserted.
 
 For each probe: the file it was written to, the command that ran it, and the
 runner's output. On large suites the summary lines plus the PROBE and CONTROL
-lines are enough; omit unrelated tests. Include the controls (tests that show what
+lines are enough; omit unrelated tests. When every CONTROL passes, the PROBE
+lines plus a count of passing CONTROLs per row is enough. Include the controls (tests that show what
 the gate does refuse) alongside the probes; the controls are what the verdict
 rests on. Probes stay in the repo. If they could not be written there (no
 test runner, read-only target), name where they are and where the team

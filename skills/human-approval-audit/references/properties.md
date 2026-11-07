@@ -224,7 +224,10 @@ without access to the operator's systems?
   distinct key id per key, so an archived record still verifies after a
   restart or rotation. A receipt that is only returned to the agent, or
   signed by a key regenerated on each start, is a Fail even when its
-  structure is sound.
+  structure is sound. A symmetric (HMAC) chain is operator-grade Pass with
+  two caveats to state every time: whoever holds the key can rewrite
+  history, and deleting the tail is undetectable unless chain heads are
+  anchored outside the writer's reach. Probe both.
 - *Third-party-grade:* a signed receipt over the canonical action, signed by
   the approver's device and countersigned by the service, verifiable offline
   with a published key. This is what an external auditor, counterparty or

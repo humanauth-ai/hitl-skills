@@ -13,9 +13,12 @@ probes in the repo; after remediation they become the regression suite (flip
 the assertions).
 
 Name tests `PROBE ...` and `CONTROL ...` so the report can quote the runner's
-summary lines plus those lines and omit the rest. A CONTROL is a test that
-shows what the gate does refuse; the verdict rests on those as much as on the
-probes.
+summary lines plus those lines and omit the rest. A CONTROL asserts a
+refusal; a PROBE asserts the attacker's outcome. When a gate refuses what a
+probe tries, keep the test and name it CONTROL, so a well-built gate ends
+with a green suite the team can keep. A PROBE that passes in the attacker's
+favour but feeds a caveat rather than a Fail carries the suffix "(caveat)".
+One convention, so two reports on the same repo read the same.
 
 ## One complete example (TypeScript, node:test)
 

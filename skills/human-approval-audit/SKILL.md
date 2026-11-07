@@ -71,10 +71,11 @@ pass, and any of 1, 2, 4 or 6 fails. Proves the action: all six pass.
 Property 6 passes at operator grade unless the asker named a party outside
 the operator (auditor, counterparty, regulator, insurer), in which case only
 third-party grade passes; the verdict sentence names the grade either way
-("proves the action, operator-grade evidence"). Score property 5 on what the
-model can reach through its tools and return values; code in the same
-process that can reach the gate's store, config or secrets is a caveat on
-the row, not a Fail (see `references/properties.md`).
+("proves the action, operator-grade evidence"). Score properties 3, 5 and 6
+on what the model can reach through its tools and return values; code in
+the same process that can reach the channel secret, the gate's store or
+config, or the record's signing key is a caveat on the row, not a Fail (see
+`references/properties.md`).
 Unknown counts as Fail for the verdict; append the unknown property numbers
 in parentheses, for example "proves nothing (5 unknown)". If you cannot show
 it, the approval does not prove it. One verdict line per decision handler;

@@ -36,7 +36,7 @@ patterns=(
   'teams-adaptive|adaptiveCard|AdaptiveCard'
   'email-code|approval code|verification code|\bOTP\b|one[- ]time code|emailApprovalCode|handleEmailCode'
   'approval-state|awaiting_approval|pending_approval|pendingAction|pending_action|approval_required|requires_human|human_review|review_required|needs_human|AWAITING_APPROVAL|PENDING_APPROVAL'
-  'approval-handler|handleApproval|approvalCallback|onApprove|approveRequest|approve_request|ApprovalDecision|decision\s*[:=]\s*["'"'"'](approve|deny)'
+  'approval-handler|handleApproval|approvalCallback|onApprove|approveRequest|approve_request|ApprovalDecision|receive[A-Za-z]*Interaction|handle[A-Za-z]*Interaction|decision\s*[:=]\s*["'"'"'](approve|deny)'
   'approval-route|/approv(e|al|als)\b|/callback\b|/decision\b|/review\b'
   # property-1 signal: anything that rewrites a pending action after it was requested
   'amend-pending|amendPending|amend_pending|updatePending|update_pending|patchPending|patch_pending|pendingAction\.args\s*=|pending_action\[|setPendingAction|editPending'
@@ -45,7 +45,7 @@ patterns=(
   # where the when-to-ask policy lives: check which module AND which process holds it before scoring row 5
   'when-to-ask-policy|THRESHOLD|threshold\s*[:=]|needsApproval\s*=|needs_approval\s*=|requiresApproval\s*=|> *[0-9_]{3,}\s*(;|\)|$)'
   # fail-open secrets: env var falling back to a compiled-in constant
-  'secret-fallback|process\.env\.[A-Z_]*(SECRET|KEY|TOKEN)[A-Z_]*\s*(\?\?|\|\|)\s*[A-Za-z"'"'"'`]'
+  'secret-fallback|process\.env\.[A-Z_]*(SECRET|KEY|TOKEN)[A-Z_]*\s*(\?\?|\|\|)\s*("[^"]+"|'"'"'[^'"'"']+'"'"'|`[^`]+`|[A-Za-z_][A-Za-z0-9_.]*)'
   'audit-writer|appendFileSync|audit\.log|audit\s*\(|auditLog|audit_log|writeAudit'
 )
 
