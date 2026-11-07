@@ -21,9 +21,9 @@ endpoints.
 
 1. **Find the gates.** Run `bash <this skill's dir>/scripts/find-gates.sh
    <repo>` (add `--all` to include tests, docs and broad execution-point
-   patterns). It lists framework primitives, homegrown patterns, and three
-   property-5 signals: tools that read a channel, thresholds inside the
-   agent, and audit writers. For every gate, locate its four points in code:
+   patterns). It lists framework primitives, homegrown patterns, and
+   property-5 signals: tools that read a channel, where the when-to-ask
+   policy lives, fail-open secrets, and audit writers. For every gate, locate its four points in code:
    where the action is **requested** (rendered to a human), where the
    **decision** arrives, where the action **executes**, and what is
    **recorded**. Include paths that skip approval (under-threshold,
@@ -70,7 +70,9 @@ it, the approval does not prove it. One verdict line per decision handler;
 when several handlers share a request and execution path, one scorecard with
 per-path rows where they differ. A path that executes with no decision
 handler (under-threshold, auto-approve) gets its own line: "not a gate", plus
-what the probes showed it can be turned into.
+what the probes showed it can be turned into (a larger single action, an
+unbounded series of small ones, or neither); threshold splitting is scored
+there, not as a row-5 Fail, unless the agent's own module sets the threshold.
 
 **Fail or Unknown.** Fail: the component is readable and lacks the control.
 Unknown: the control may live in a component you could not read or exercise

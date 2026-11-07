@@ -42,7 +42,10 @@ patterns=(
   'amend-pending|amendPending|amend_pending|updatePending|update_pending|patchPending|patch_pending|pendingAction\.args\s*=|pending_action\[|setPendingAction|editPending'
   # property-5 signals: can the agent read the approval channel, decide when it is supervised, or write the record?
   'agent-reads-channel|readInbox|read_inbox|listMessages|list_messages|conversations\.history|gmail|imap|readSlack|read_slack|fetchMail|get_messages|readEmail|read_email'
-  'threshold-in-agent|THRESHOLD|threshold\s*[:=]|needsApproval\s*=|needs_approval\s*=|requiresApproval\s*=|> *[0-9_]{3,}\s*(;|\)|$)'
+  # where the when-to-ask policy lives: check which module AND which process holds it before scoring row 5
+  'when-to-ask-policy|THRESHOLD|threshold\s*[:=]|needsApproval\s*=|needs_approval\s*=|requiresApproval\s*=|> *[0-9_]{3,}\s*(;|\)|$)'
+  # fail-open secrets: env var falling back to a compiled-in constant
+  'secret-fallback|process\.env\.[A-Z_]*(SECRET|KEY|TOKEN)[A-Z_]*\s*(\?\?|\|\|)\s*[A-Za-z"'"'"'`]'
   'audit-writer|appendFileSync|audit\.log|audit\s*\(|auditLog|audit_log|writeAudit'
 )
 

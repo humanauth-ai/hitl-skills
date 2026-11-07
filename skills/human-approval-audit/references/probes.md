@@ -12,6 +12,11 @@ A probe that *passes* in the attacker's favor is the evidence. Leave the
 probes in the repo; after remediation they become the regression suite (flip
 the assertions).
 
+Name tests `PROBE ...` and `CONTROL ...` so the report can quote the runner's
+summary lines plus those lines and omit the rest. A CONTROL is a test that
+shows what the gate does refuse; the verdict rests on those as much as on the
+probes.
+
 ## One complete example (TypeScript, node:test)
 
 Written against this plugin's own fixture, `fixtures/vulnerable-payments-agent`
