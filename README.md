@@ -101,6 +101,7 @@ skills/human-approval-gate/
 fixtures/vulnerable-payments-agent/   a flow that fails every property, with its probes
 fixtures/ungated-payments-agent/      a flow with no approval yet (target for the gate skill)
 evals/                                claude plugin eval cases and results
+reports/                              published audits, starting with our own ("proves a click")
 ```
 
 ## Scope and ethics
