@@ -39,7 +39,7 @@
     },
     {
       "name": "hitl",
-      "source": "./plugin",
+      "source": "./",
       "description": "Human-in-the-loop skills for AI agents: audit what a human approval proves (the action, a click, or nothing) and build approval gates that prove the action.",
       "version": "0.2.1",
       "author": {

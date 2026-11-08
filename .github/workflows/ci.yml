@@ -4,36 +4,25 @@ on:
     branches: [main]
   pull_request:
 jobs:
-  fixtures:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [22, 24]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - name: vulnerable-payments-agent (18 probes must pass in the attacker's favour)
-        run: npm test
-        working-directory: fixtures/vulnerable-payments-agent
-      - name: ungated-payments-agent
-        run: npm test
-        working-directory: fixtures/ungated-payments-agent
-      - name: gate finder runs on both fixtures
-        run: |
-          bash scripts/find-gates.sh fixtures/vulnerable-payments-agent | head -5
-          bash scripts/find-gates.sh fixtures/ungated-payments-agent | head -5
   skill-format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: plugin folder holds text files only (directory policy for non-Verified publishers)
+        run: |
+          set -e
+          bad=0
+          while IFS= read -r f; do
+            case "$f" in *.sh|*.ts|*.js|*.mjs|*.cjs|*.py|*.rb|*.go|*.swift) echo "script in plugin: $f"; bad=1;; esac
+            if head -c2 "$f" | grep -q '#!'; then echo "shebang in plugin: $f"; bad=1; fi
+          done < <(git ls-files)
+          test $bad -eq 0
       - name: every skill has frontmatter name matching its folder
         run: |
           set -e
-          for d in plugin/skills/*/; do
+          for d in skills/*/; do
             n=$(basename "$d")
             grep -q "^name: $n$" "$d/SKILL.md" || { echo "name mismatch in $d"; exit 1; }
             grep -q "^description: " "$d/SKILL.md" || { echo "no description in $d"; exit 1; }
           done
-          test -f plugin/.claude-plugin/plugin.json && test -f .claude-plugin/marketplace.json
+          test -f .claude-plugin/plugin.json && test -f .claude-plugin/marketplace.json

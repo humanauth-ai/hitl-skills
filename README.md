@@ -6,8 +6,8 @@ data, send messages or change production. Open
 
 | Skill | What it does | Status |
 |---|---|---|
-| [`human-approval-audit`](./plugin/skills/human-approval-audit) | Audits an agent's human-approval gates and reports what the approval proves: **the action**, **a click**, or **nothing**. Writes probes the repo keeps. | v0.1.0 |
-| [`human-approval-gate`](./plugin/skills/human-approval-gate) | Adds a human approval step that **proves the action**: freeze and hash, authenticated and authorised decision, TTL and single use, policy outside the agent, durable evidence, then runs the audit on itself. | v0.1.0 |
+| [`human-approval-audit`](./skills/human-approval-audit) | Audits an agent's human-approval gates and reports what the approval proves: **the action**, **a click**, or **nothing**. Writes probes the repo keeps. | v0.1.0 |
+| [`human-approval-gate`](./skills/human-approval-gate) | Adds a human approval step that **proves the action**: freeze and hash, authenticated and authorised decision, TTL and single use, policy outside the agent, durable evidence, then runs the audit on itself. | v0.1.0 |
 
 Covers LangGraph `interrupt`, OpenAI Agents SDK `needs_approval`, Google ADK
 `require_confirmation`, Vercel AI `needsApproval`, Claude Agent SDK
@@ -38,7 +38,7 @@ codex plugin add hitl@humanauth
 npx skills add humanauth-ai/hitl-skills
 ```
 
-**By hand**: copy a folder from `plugin/skills/` into `.claude/skills/`,
+**By hand**: copy a folder from `skills/` into `.claude/skills/`,
 `~/.claude/skills/` or `~/.agents/skills/`.
 
 ## Use
@@ -47,10 +47,14 @@ In your agent, in the repo you want audited:
 
 > Audit our human approval flow. What does the approval prove?
 
-Or try it on the included fixture first:
+Or try it on a fixture first. The fixture agents and the eval suite live in
+[humanauth-ai/hitl-fixtures](https://github.com/humanauth-ai/hitl-fixtures)
+(kept out of this repository so the plugin stays text-only, which the Claude
+directory requires of publishers that are not yet Verified):
 
 ```bash
-cd fixtures/vulnerable-payments-agent
+git clone https://github.com/humanauth-ai/hitl-fixtures
+cd hitl-fixtures/fixtures/vulnerable-payments-agent
 npm test   # 21 passing: 3 happy-path tests, 18 probes that pass in the attacker's favour
 ```
 
@@ -75,37 +79,36 @@ test in your own runner.
 ## Does the skill actually help?
 
 We measure it with `claude plugin eval`, which runs each case with and
-without the plugin. Latest numbers are in [`evals/RESULTS.md`](./evals/RESULTS.md):
+without the plugin. Latest numbers are in [`evals/RESULTS.md`](https://github.com/humanauth-ai/hitl-fixtures/blob/main/evals/RESULTS.md):
 on the core audit case the plugin took the score from 0.42 to 1.00; on the
 "can someone fake the click?" phrasing from 0.33 to 1.00; and it never fired
 on an unrelated request. For the gate skill, the same plain request ("add a
 slack approval step so transfers over 1000 wait for someone to approve")
 produced a gate the audit scored **"proves nothing"** without the skill and
-**"proves the action, operator-grade evidence"** with it. The suite is in
-`evals/` so you can re-run it.
+**"proves the action, operator-grade evidence"** with it. The suite is in the
+[hitl-fixtures](https://github.com/humanauth-ai/hitl-fixtures) repository so
+you can re-run it.
 
 ## Layout
 
 ```
-.claude-plugin/marketplace.json   marketplace: hitl (this repo, ./plugin) and humanauth
-plugin/                           the plugin folder: text files only (directory policy)
-  .claude-plugin/plugin.json, icon.png, README.md, LICENSE
-  skills/human-approval-audit/
-    SKILL.md                      procedure, six properties, verdict rule
-    references/find-gates.md      the gate-finding searches (read-only)
-    references/properties.md      pass/fail per property, per framework
-    references/probes.md          probe templates (one complete example)
-    references/report-template.md the report contract
-    agents/openai.yaml            display metadata for Codex and ChatGPT
-  skills/human-approval-gate/
-    SKILL.md                      nine steps, the defaults everyone drops, mistakes
-    references/recipes.md         where each piece goes per framework
-scripts/find-gates.sh             shell version of the searches, used by CI
-fixtures/vulnerable-payments-agent/   a flow that fails every property, with its probes
-fixtures/ungated-payments-agent/      a flow with no approval yet (target for the gate skill)
-evals/                                claude plugin eval cases and results
-reports/                              published audits, starting with our own ("proves a click")
+.claude-plugin/              plugin and marketplace manifests, icon
+skills/human-approval-audit/
+  SKILL.md                   procedure, six properties, verdict rule
+  references/find-gates.md   the gate-finding searches (read-only)
+  references/properties.md   pass/fail per property, per framework
+  references/probes.md       probe templates (one complete example)
+  references/report-template.md   the report contract
+  agents/openai.yaml         display metadata for Codex and ChatGPT
+skills/human-approval-gate/
+  SKILL.md                   nine steps, the defaults everyone drops, mistakes
+  references/recipes.md      where each piece goes per framework
+reports/                     published audits, starting with our own ("proves a click")
 ```
+
+Text files only, on purpose. The fixture agents, the eval suite and the
+shell version of the gate finder are in
+[humanauth-ai/hitl-fixtures](https://github.com/humanauth-ai/hitl-fixtures).
 
 ## Scope and ethics
 

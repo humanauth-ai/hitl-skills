@@ -71,6 +71,6 @@ tools that read the approval channel, where the when-to-ask policy lives,
 and secrets that fall back to a compiled-in constant. Then score the six
 properties in SKILL.md.
 
-A maintained shell version of this search ships in the repository at
-`scripts/find-gates.sh` (outside the plugin, because the directory accepts
-only text files from this publisher); it is a convenience, not a dependency.
+A maintained shell version of this search lives in the companion repository
+humanauth-ai/hitl-fixtures (`scripts/find-gates.sh`); it is a convenience,
+not a dependency.
