@@ -12,6 +12,32 @@
   },
   "plugins": [
     {
+      "name": "humanauth",
+      "source": {
+        "source": "github",
+        "repo": "humanauth-ai/humanauth-plugin"
+      },
+      "description": "Approve what Claude does when you're not watching. Consequential tool calls pause until you approve them on your phone, and run only against a signed, action-bound HumanAuth receipt verified on your machine. For headless claude -p runs, CI and Cowork.",
+      "version": "0.1.0",
+      "author": {
+        "name": "HumanAuth",
+        "url": "https://humanauth.ai"
+      },
+      "homepage": "https://github.com/humanauth-ai/humanauth-plugin#readme",
+      "repository": "https://github.com/humanauth-ai/humanauth-plugin",
+      "license": "MIT",
+      "category": "security",
+      "keywords": [
+        "human-in-the-loop",
+        "hitl",
+        "human-approval",
+        "tool-approval",
+        "phone-approval",
+        "unattended",
+        "agent-security"
+      ]
+    },
+    {
       "name": "hitl",
       "source": "./",
       "description": "Human-in-the-loop skills for AI agents: audit what a human approval proves (the action, a click, or nothing) and build approval gates that prove the action.",
