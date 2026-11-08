@@ -6,8 +6,8 @@ data, send messages or change production. Open
 
 | Skill | What it does | Status |
 |---|---|---|
-| [`human-approval-audit`](./skills/human-approval-audit) | Audits an agent's human-approval gates and reports what the approval proves: **the action**, **a click**, or **nothing**. Writes probes the repo keeps. | v0.1.0 |
-| [`human-approval-gate`](./skills/human-approval-gate) | Adds a human approval step that **proves the action**: freeze and hash, authenticated and authorised decision, TTL and single use, policy outside the agent, durable evidence, then runs the audit on itself. | v0.1.0 |
+| [`human-approval-audit`](./plugin/skills/human-approval-audit) | Audits an agent's human-approval gates and reports what the approval proves: **the action**, **a click**, or **nothing**. Writes probes the repo keeps. | v0.1.0 |
+| [`human-approval-gate`](./plugin/skills/human-approval-gate) | Adds a human approval step that **proves the action**: freeze and hash, authenticated and authorised decision, TTL and single use, policy outside the agent, durable evidence, then runs the audit on itself. | v0.1.0 |
 
 Covers LangGraph `interrupt`, OpenAI Agents SDK `needs_approval`, Google ADK
 `require_confirmation`, Vercel AI `needsApproval`, Claude Agent SDK
@@ -38,7 +38,7 @@ codex plugin add hitl@humanauth
 npx skills add humanauth-ai/hitl-skills
 ```
 
-**By hand**: copy a folder from `skills/` into `.claude/skills/`,
+**By hand**: copy a folder from `plugin/skills/` into `.claude/skills/`,
 `~/.claude/skills/` or `~/.agents/skills/`.
 
 ## Use
@@ -87,17 +87,20 @@ produced a gate the audit scored **"proves nothing"** without the skill and
 ## Layout
 
 ```
-.claude-plugin/              plugin and marketplace manifests
-skills/human-approval-audit/
-  SKILL.md                   procedure, six properties, verdict rule
-  scripts/find-gates.sh      locate gates in a repo (read-only)
-  references/properties.md   pass/fail per property, per framework
-  references/probes.md       probe templates (one complete example)
-  references/report-template.md   the report contract
-  agents/openai.yaml         display metadata for Codex and ChatGPT
-skills/human-approval-gate/
-  SKILL.md                   nine steps, the defaults everyone drops, mistakes
-  references/recipes.md      where each piece goes per framework
+.claude-plugin/marketplace.json   marketplace: hitl (this repo, ./plugin) and humanauth
+plugin/                           the plugin folder: text files only (directory policy)
+  .claude-plugin/plugin.json, icon.png, README.md, LICENSE
+  skills/human-approval-audit/
+    SKILL.md                      procedure, six properties, verdict rule
+    references/find-gates.md      the gate-finding searches (read-only)
+    references/properties.md      pass/fail per property, per framework
+    references/probes.md          probe templates (one complete example)
+    references/report-template.md the report contract
+    agents/openai.yaml            display metadata for Codex and ChatGPT
+  skills/human-approval-gate/
+    SKILL.md                      nine steps, the defaults everyone drops, mistakes
+    references/recipes.md         where each piece goes per framework
+scripts/find-gates.sh             shell version of the searches, used by CI
 fixtures/vulnerable-payments-agent/   a flow that fails every property, with its probes
 fixtures/ungated-payments-agent/      a flow with no approval yet (target for the gate skill)
 evals/                                claude plugin eval cases and results

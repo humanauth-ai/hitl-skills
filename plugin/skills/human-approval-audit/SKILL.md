@@ -19,11 +19,12 @@ endpoints.
 
 ## Procedure
 
-1. **Find the gates.** Run `bash <this skill's dir>/scripts/find-gates.sh
-   <repo>` (add `--all` to include tests, docs and broad execution-point
-   patterns). It lists framework primitives, homegrown patterns, and
-   property-5 signals: tools that read a channel, where the when-to-ask
-   policy lives, fail-open secrets, and audit writers. For every gate, locate its four points in code:
+1. **Find the gates.** Run the searches in `references/find-gates.md`
+   against the repo (one `rg` or `grep` per pattern row; a second pass adds
+   tests, docs and broad execution-point patterns). They find framework
+   primitives, homegrown patterns, and property-5 signals: tools that read
+   a channel, where the when-to-ask policy lives, fail-open secrets, and
+   audit writers. For every gate, locate its four points in code:
    where the action is **requested** (rendered to a human), where the
    **decision** arrives, where the action **executes**, and what is
    **recorded**. Include paths that skip approval (under-threshold,

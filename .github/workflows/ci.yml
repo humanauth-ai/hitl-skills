@@ -22,8 +22,8 @@ jobs:
         working-directory: fixtures/ungated-payments-agent
       - name: gate finder runs on both fixtures
         run: |
-          bash skills/human-approval-audit/scripts/find-gates.sh fixtures/vulnerable-payments-agent | head -5
-          bash skills/human-approval-audit/scripts/find-gates.sh fixtures/ungated-payments-agent | head -5
+          bash scripts/find-gates.sh fixtures/vulnerable-payments-agent | head -5
+          bash scripts/find-gates.sh fixtures/ungated-payments-agent | head -5
   skill-format:
     runs-on: ubuntu-latest
     steps:
@@ -31,9 +31,9 @@ jobs:
       - name: every skill has frontmatter name matching its folder
         run: |
           set -e
-          for d in skills/*/; do
+          for d in plugin/skills/*/; do
             n=$(basename "$d")
             grep -q "^name: $n$" "$d/SKILL.md" || { echo "name mismatch in $d"; exit 1; }
             grep -q "^description: " "$d/SKILL.md" || { echo "no description in $d"; exit 1; }
           done
-          test -f .claude-plugin/plugin.json && test -f .claude-plugin/marketplace.json
+          test -f plugin/.claude-plugin/plugin.json && test -f .claude-plugin/marketplace.json
