@@ -18,7 +18,7 @@
         "repo": "humanauth-ai/humanauth-plugin"
       },
       "description": "Approve what Claude does when you're not watching. Consequential tool calls pause until you approve them on your phone, and run only against a signed, action-bound HumanAuth receipt verified on your machine. For headless claude -p runs, CI and Cowork.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "HumanAuth",
         "url": "https://humanauth.ai"
